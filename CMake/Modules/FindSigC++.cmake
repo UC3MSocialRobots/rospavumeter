@@ -1,29 +1,43 @@
 # - Try to find SigC++-2.0
-# Once done, this will define
+# Once done this will define
 #
-# SigC++_FOUND - system has SigC++
-# SigC++_INCLUDE_DIRS - the SigC++ include directories
-# SigC++_LIBRARIES - link these to use SigC++
-include(LibFindMacros)
-# Use pkg-config to get hints about paths
-libfind_pkg_check_modules(SigC++_PKGCONF sigc++-2.0)
-# Main include dir
-find_path(SigC++_INCLUDE_DIR
-NAMES sigc++/sigc++.h
-PATHS ${SigC++_PKGCONF_INCLUDE_DIRS}
-PATH_SUFFIXES sigc++-2.0
-)
-# Glib-related libraries also use a separate config header, which is in lib dir
-find_path(SigC++Config_INCLUDE_DIR
-NAMES sigc++config.h
-PATHS ${SigC++_PKGCONF_INCLUDE_DIRS}
-)
-# find_library(SigC++_LIBRARY
-# NAMES SigC SigC-2.0
-# PATHS ${SigC++_PKGCONF_LIBRARY_DIRS}
-# )
-# Set the include dir variables and the libraries and let libfind_process do the rest.
-# NOTE: Singular variables for this library, plural for libraries this this lib depends on.
-set(SigC++_PROCESS_INCLUDES SigC++_INCLUDE_DIR SigC++Config_INCLUDE_DIR)
-set(SigC++_PROCESS_LIBS SigC++_LIBRARY)
-libfind_process(SigC++)
+#  SIGC++_FOUND - system has SigC++
+#  SIGC++_INCLUDE_DIR - the SigC++ include directory
+#  SIGC++_LIBRARY - SigC++ library
+
+if(SIGC++_INCLUDE_DIR AND SIGC++_LIBRARIES)
+    # Already in cache, be silent
+    set(SIGC++_FIND_QUIETLY TRUE)
+endif(SIGC++_INCLUDE_DIR AND SIGC++_LIBRARIES)
+
+if (NOT WIN32)
+   include(UsePkgConfig)
+   pkgconfig(sigc++-2.0 _LibSIGC++IncDir _LibSIGC++LinkDir _LibSIGC++LinkFlags _LibSIGC++Cflags)
+endif(NOT WIN32)
+
+find_path(SIGC++_INCLUDE_DIR sigc++/sigc++.h
+          PATH_SUFFIXES sigc++-2.0
+          PATHS ${_LibSIGC++IncDir} )
+
+find_library(SIGC++_LIBRARY
+             NAMES sigc-2.0
+             PATHS ${_LibSIGC++LinkDir} )
+
+get_filename_component(sigc++LibDir "${SIGC++_LIBRARY}" PATH)
+
+# search the sigc++config.h include dir under the same root where the library is found
+
+find_path(SIGC++_CONFIG_INCLUDE_DIR sigc++config.h
+          PATH_SUFFIXES sigc++-2.0/include
+          PATHS ${_LibSIGC++IncDir} "${sigc++LibDir}" ${CMAKE_SYSTEM_LIBRARY_PATH})
+
+# not sure if this include dir is optional or required
+# for now it is optional
+if(SIGC++_CONFIG_INCLUDE_DIR)
+  set(SIGC++_INCLUDE_DIR ${SIGC++_INCLUDE_DIR} "${SIGC++_CONFIG_INCLUDE_DIR}")
+endif(SIGC++_CONFIG_INCLUDE_DIR)
+
+include(FindPackageHandleStandardArgs)
+find_package_handle_standard_args(SIGC++  DEFAULT_MSG  SIGC++_LIBRARY SIGC++_INCLUDE_DIR)
+
+mark_as_advanced(SIGC++_INCLUDE_DIR SIGC++_LIBRARY)

@@ -7,12 +7,12 @@ find_package(catkin REQUIRED COMPONENTS roscpp roslib
                                         std_msgs
                                         #~ utils
                                         )
-                                        
+
 find_package(PulseAudio REQUIRED)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake/Modules")
 find_package(Glib REQUIRED)
-find_package(Glibmm REQUIRED) 
+find_package(Glibmm REQUIRED)
 
 ### 4 - Message/Service/Action Generators (add_message_files(), add_service_files(), add_action_files())
 # nothing to do
@@ -29,12 +29,13 @@ catkin_package(
 
 ### 7 - Libraries/Executables to build (add_library()/add_executable()/target_link_libraries())
 include_directories(
-  include 
-	src 
-	${catkin_INCLUDE_DIRS} 
-	${Glib_INCLUDE_DIRS}
-	${Glibmm_INCLUDE_DIRS}
-	${PULSEAUDIO_INCLUDE_DIR} 
+  include
+  src
+  ${catkin_INCLUDE_DIRS}
+  ${SIGC++_INCLUDE_DIR}
+  ${Glib_INCLUDE_DIRS}
+  ${Glibmm_INCLUDE_DIRS}
+  ${PULSEAUDIO_INCLUDE_DIR}
 )
 
 ADD_SUBDIRECTORY(src)
