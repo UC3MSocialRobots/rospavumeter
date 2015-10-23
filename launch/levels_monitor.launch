@@ -1,0 +1,15 @@
+<launch>
+<!-- launch both a microphone monitor and a speaker monitor
+  and plot the resulting volumes -->
+<remap from="/systemSoundLevel" to="speakervol" />
+<node pkg="rospavumeter" type="vumeter.exe" name="speakermon"
+      args=""/>
+
+<remap from="/systemSoundLevel" to="micvol" />
+<node pkg="rospavumeter" type="vumeter.exe" name="micmon"
+      args="_record:=true"/>
+
+<node pkg="rqt_plot" type="rqt_plot" name="micplot"
+      args="/speakervol/data /micvol/data"/>
+
+</launch>
