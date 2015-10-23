@@ -3,23 +3,42 @@ cmake_minimum_required(VERSION 2.8.3)
 ### 2- Package Name
 project(rospavumeter)
 ### 3 - Find other CMake/Catkin packages needed for build
-find_package(catkin REQUIRED COMPONENTS roscpp)
+find_package(catkin REQUIRED COMPONENTS roscpp roslib
+                                        std_msgs
+                                        #~ utils
+                                        )
+                                        
+find_package(PulseAudio REQUIRED)
+
+list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/CMake/Modules")
+find_package(Glib REQUIRED)
+find_package(Glibmm REQUIRED) 
+
 ### 4 - Message/Service/Action Generators (add_message_files(), add_service_files(), add_action_files())
 # nothing to do
+
 ### 5 - Invoke message/service/action generation (generate_messages())
-# nothing to do
+## Generate added messages and services with any dependencies listed here
+
 ### 6 - Specify package build info export (catkin_package())
 catkin_package(
-  INCLUDE_DIRS include
-  CATKIN_DEPENDS roscpp
+  INCLUDE_DIRS src
+  CATKIN_DEPENDS roscpp roslib std_msgs
+  #~ DEPENDS utils
 )
+
 ### 7 - Libraries/Executables to build (add_library()/add_executable()/target_link_libraries())
 include_directories(
-  include /usr/include/glib-2.0/ /usr/lib/i386-linux-gnu/glib-2.0/include/
-  ${catkin_INCLUDE_DIRS}
+  include 
+	src 
+	${catkin_INCLUDE_DIRS} 
+	${Glib_INCLUDE_DIRS}
+	${Glibmm_INCLUDE_DIRS}
+	${PULSEAUDIO_INCLUDE_DIR} 
 )
-add_executable(rospavumeter         src/rospavumeter.cpp)
-target_link_libraries(rospavumeter ${catkin_LIBRARIES})
+
+ADD_SUBDIRECTORY(src)
+
 ### 8 - Tests to build (catkin_add_gtest())
 #~ ADD_SUBDIRECTORY(test)
 ### 9 - Install rules (install())
