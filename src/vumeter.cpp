@@ -21,7 +21,7 @@
 
 #include "vumeter.h" 
 
-MainWindow::MainWindow(const pa_channel_map &map, const char *, const char *description) :
+MainWindow::MainWindow(const pa_channel_map &map, const char *, const char */*description*/) :
     latency(0) {
 
     char t[256];
@@ -71,7 +71,7 @@ void MainWindow::addChannel(const Glib::ustring &l) {
     channels.push_back(new ChannelInfo(*this, l));
 }
 
-MainWindow::ChannelInfo::ChannelInfo(MainWindow &w, const Glib::ustring &l) {
+MainWindow::ChannelInfo::ChannelInfo(MainWindow &/*w*/, const Glib::ustring &/*l*/) {
     //label = Gtk::manage(new Gtk::Label(l, 1.0, 0.5));
     //label->set_markup(l);
 
@@ -461,7 +461,7 @@ static void context_state_callback(pa_context *c, void *) {
     }
 }
 
-void closeAllProcess(int a){
+void closeAllProcess(int /*a*/){
     signal(SIGINT, SIG_IGN);
     g_message("closeAllProcess()");
 
