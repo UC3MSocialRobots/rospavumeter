@@ -25,7 +25,6 @@ find_package(Glibmm REQUIRED)
 catkin_package(
   INCLUDE_DIRS src
   CATKIN_DEPENDS roscpp roslib std_msgs
-  #~ DEPENDS utils
 )
 
 ### 7 - Libraries/Executables to build (add_library()/add_executable()/target_link_libraries())
@@ -38,6 +37,7 @@ include_directories(
   ${Glibmm_INCLUDE_DIRS}
   ${PULSEAUDIO_INCLUDE_DIR}
 )
+ADD_DEFINITIONS(-std=c++11)
 
 ADD_SUBDIRECTORY(src)
 
