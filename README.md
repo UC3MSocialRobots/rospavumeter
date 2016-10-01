@@ -17,7 +17,7 @@ Install
 =======
 
 ```
-$ sudo apt-get install libsigc++-2.0-dev libglibmm-2.4-dedv
+$ sudo apt-get install libsigc++-2.0-dev libglibmm-2.4-dev
 ```
 
 Licence
