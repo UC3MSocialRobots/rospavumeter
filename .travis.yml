@@ -1,4 +1,4 @@
-# travis rules for vision_utils
+# travis rules for project
 # use Ubuntu Trusty 14.04, compatible with ROS Indigo - check https://docs.travis-ci.com/user/ci-environment/
 sudo: required
 dist: trusty
