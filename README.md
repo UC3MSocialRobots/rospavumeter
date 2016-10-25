@@ -1,5 +1,7 @@
 # rospavumeter
 
+[![Build Status](https://travis-ci.org/arnaud-ramey/rospavumeter.svg)](https://travis-ci.org/arnaud-ramey/rospavumeter)
+
 Description
 ===========
 
